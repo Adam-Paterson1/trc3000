@@ -2,6 +2,35 @@
   text-align: center;
 }
 
+input {
+  width: 8rem;
+  padding: 0.2rem;
+  margin: 0.3rem;
+}
+
+.banner {
+  display: flex;
+  background-color: black;
+}
+.Box {
+  padding: 1rem;
+  flex-grow: 1;
+  height: 600px;
+  /* max-width: 50%; */
+}
+.log {
+  padding: 1rem;
+  background-color: #dddddd;
+  margin: 0.5rem;
+  border-radius: 1rem;
+}
+form {
+  background-color: #dddddd;
+  border-radius: 1rem;
+  margin: 1rem;
+  flex-grow: 1;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
