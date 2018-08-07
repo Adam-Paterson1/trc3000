@@ -33,6 +33,8 @@ class App extends Component {
       this.inputKi.current.value = gains.ki
       this.inputKd.current.value = gains.kd
     })
+    this.input.current.value = window.location.hostname
+    this.handleSubmit()
   }
   handleSubmit(event) {
     setupSocket(this.input.current.value)
