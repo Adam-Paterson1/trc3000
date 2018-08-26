@@ -3,6 +3,24 @@ import {setupSocket, subscribeToTimer, setTarget, subscribeToTarget, subscribeTo
 import ChartWrapper from './Chart.js';
 import './App.css';
 import Logger from './Logger.js';
+import VideoPlayer from './Video.js';
+
+const videoJsOptions = {
+  autoplay: true,
+  controls: true,
+  sources: [{
+    src: 'PerfBoostsTrim.mp4',
+    type: 'video/mp4'
+  }]
+}
+// const videoJsOptions = {
+//   autoplay: true,
+//   controls: true,
+//   sources: [{
+//     src: '/camera/livestream.m3u8',
+//     type: 'application/x-mpegURL'
+//   }]
+// }
 
 class App extends Component {
   constructor(props) {
@@ -34,7 +52,7 @@ class App extends Component {
       this.inputKd.current.value = gains.kd
     })
     this.input.current.value = window.location.hostname
-    this.handleSubmit()
+    setupSocket(this.input.current.value);
   }
   handleSubmit(event) {
     setupSocket(this.input.current.value)
@@ -85,6 +103,9 @@ class App extends Component {
         <div style={{display: 'flex'}}>
           <ChartWrapper target={this.state.target} />
           <Logger />
+        </div>
+        <div style={{display: 'flex'}}>
+          <VideoPlayer { ...videoJsOptions } />
         </div>
       </div>
     );
