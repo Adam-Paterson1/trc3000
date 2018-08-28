@@ -5,22 +5,22 @@ import './App.css';
 import Logger from './Logger.js';
 import VideoPlayer from './Video.js';
 
-const videoJsOptions = {
-  autoplay: true,
-  controls: true,
-  sources: [{
-    src: 'PerfBoostsTrim.mp4',
-    type: 'video/mp4'
-  }]
-}
 // const videoJsOptions = {
 //   autoplay: true,
 //   controls: true,
 //   sources: [{
-//     src: '/camera/livestream.m3u8',
-//     type: 'application/x-mpegURL'
+//     src: 'PerfBoostsTrim.mp4',
+//     type: 'video/mp4'
 //   }]
 // }
+const videoJsOptions = {
+  autoplay: true,
+  controls: true,
+  sources: [{
+    src: 'http://169.254.199.70:8080/camera/livestream.m3u8',
+    type: 'application/x-mpegURL'
+  }]
+}
 
 class App extends Component {
   constructor(props) {
