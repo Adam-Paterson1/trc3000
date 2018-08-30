@@ -11,20 +11,20 @@ export default class VideoPlayer extends Component {
   }
   componentDidMount() {
     // instantiate Video.js
-    this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
-      console.log('onPlayerReady', this)
-    });
-    subscribeToVid((data) => {
-      this.pktnum++;
-      var frame = new Uint8Array(data);
-      //log("[Pkt " + this.pktnum + " (" + data.byteLength + " bytes)]");
-      //this.decode(frame);
-      framesList.push(frame);
-    })
+    // this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
+    //   console.log('onPlayerReady', this)
+    // });
+    // subscribeToVid((data) => {
+    //   this.pktnum++;
+    //   var frame = new Uint8Array(data);
+    //   //log("[Pkt " + this.pktnum + " (" + data.byteLength + " bytes)]");
+    //   //this.decode(frame);
+    //   framesList.push(frame);
+    // })
     subscribeToImage((data) => {
       console.log('data', data);
       var img = new Image();
-      img.src = 'data:image/jpeg;base64,' + info.buffer;
+      img.src = 'data:image/jpeg;base64,' + data;
       this.ctx.drawImage(img, 0, 0);
     })
   }
@@ -42,10 +42,10 @@ export default class VideoPlayer extends Component {
   render() {
     return (
       <div>    
-        <div data-vjs-player>
+        {/* <div data-vjs-player>
           <video ref={ node => this.videoNode = node } className="video-js"></video>
-        </div>
-         <canvas id="myImg" ref={(c) => this.ctx = c.getContext('2d')}> </canvas>
+        </div> */}
+         <canvas id="myImg" ref={(c) => this.ctx = c.getContext('2d')} width={'100px'} height={'100px'}> </canvas>
       </div>
     )
   }
