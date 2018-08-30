@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import videojs from 'video.js'
 import 'video.js/dist/video-js.css';
-import {subscribeToVid} from './Socket.js';
+import {subscribeToVid, subscribeToImage} from './Socket.js';
 
 let framesList = [];
 export default class VideoPlayer extends Component {
@@ -16,10 +16,13 @@ export default class VideoPlayer extends Component {
     });
     subscribeToVid((data) => {
       this.pktnum++;
-      var frame = new Uint8Array(evt.data);
-      //log("[Pkt " + this.pktnum + " (" + evt.data.byteLength + " bytes)]");
+      var frame = new Uint8Array(data);
+      //log("[Pkt " + this.pktnum + " (" + data.byteLength + " bytes)]");
       //this.decode(frame);
       framesList.push(frame);
+    })
+    subscribeToImage((data) => {
+      console.log('data', data);
     })
   }
 

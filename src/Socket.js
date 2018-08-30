@@ -49,6 +49,16 @@ function subscribeToVid(cb) {
   watching.push(() => subscribeToVid(cb))
 
 }
+function subscribeToImage(cb) {
+  if (!socket) {
+    todos.push(() => subscribeToImage(cb))
+    return;
+  }
+  socket.on('image', data => cb(data));
+  socket.emit('subscribeToImage');
+  watching.push(() => subscribeToImage(cb))
+
+}
 function setTarget(value) {
   if (!socket) {
     todos.push(() => setTarget(value))
@@ -88,4 +98,4 @@ function subscribeToLogs(cb) {
   }
   socket.on('log', value => cb(value))
 }
-export { setupSocket, subscribeToTimer, subscribeToTilt, subscribeToVid, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs };
+export { setupSocket, subscribeToTimer, subscribeToTilt, subscribeToVid, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs };
