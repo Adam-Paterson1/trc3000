@@ -8,7 +8,7 @@ export default class VideoPlayer extends Component {
   constructor() {
     super()
     this.pktnum = 0;
-}
+  }
   componentDidMount() {
     // instantiate Video.js
     this.player = videojs(this.videoNode, this.props, function onPlayerReady() {
@@ -23,6 +23,9 @@ export default class VideoPlayer extends Component {
     })
     subscribeToImage((data) => {
       console.log('data', data);
+      var img = new Image();
+      img.src = 'data:image/jpeg;base64,' + info.buffer;
+      this.ctx.drawImage(img, 0, 0);
     })
   }
 
@@ -42,6 +45,7 @@ export default class VideoPlayer extends Component {
         <div data-vjs-player>
           <video ref={ node => this.videoNode = node } className="video-js"></video>
         </div>
+         <canvas id="myImg" ref={(c) => this.ctx = c.getContext('2d')}> </canvas>
       </div>
     )
   }
