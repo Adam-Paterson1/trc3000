@@ -7,6 +7,9 @@ input {
   padding: 0.2rem;
   margin: 0.3rem;
 }
+label, form {
+  margin: auto;
+}
 
 .banner {
   display: flex;
@@ -15,8 +18,13 @@ input {
 .Box {
   padding: 1rem;
   flex-grow: 1;
-  height: 600px;
+  height: 300px;
+  display: flex;
   /* max-width: 50%; */
+}
+.BoxInner {
+  padding: 1rem;
+  flex-grow: 1;
 }
 .log {
   padding: 1rem;
@@ -24,11 +32,13 @@ input {
   margin: 0.5rem;
   border-radius: 1rem;
 }
-form {
+
+.formLike {
   background-color: #dddddd;
-  border-radius: 1rem;
-  margin: 1rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
   flex-grow: 1;
+  display:flex;
 }
 
 .App-logo {
@@ -49,6 +59,10 @@ form {
 
 .App-intro {
   font-size: large;
+}
+.canvasBox {
+  padding: 1rem;
+  flex-grow: 1;
 }
 
 @keyframes App-logo-spin {

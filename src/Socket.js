@@ -20,15 +20,6 @@ function setupSocket(ip) {
   todos.forEach((todo) => todo());
   todos = [];
 }
-function subscribeToTimer(cb) {
-  if (!socket) {
-    todos.push(() => subscribeToTimer(cb))
-    return;
-  }
-  socket.on('timer', timestamp => cb(null, timestamp));
-  socket.emit('subscribeToTimer', 1000);
-  watching.push(() => subscribeToTimer(cb))
-}
 function subscribeToTilt(cb) {
   if (!socket) {
     todos.push(() => subscribeToTilt(cb))
@@ -37,16 +28,6 @@ function subscribeToTilt(cb) {
   socket.on('tilt', tilt => cb(tilt));
   socket.emit('subscribeToTilt');
   watching.push(() => subscribeToTilt(cb))
-
-}
-function subscribeToVid(cb) {
-  if (!socket) {
-    todos.push(() => subscribeToVid(cb))
-    return;
-  }
-  socket.on('vid', data => cb(data));
-  socket.emit('subscribeToVid');
-  watching.push(() => subscribeToVid(cb))
 
 }
 function subscribeToImage(cb) {
@@ -98,4 +79,4 @@ function subscribeToLogs(cb) {
   }
   socket.on('log', value => cb(value))
 }
-export { setupSocket, subscribeToTimer, subscribeToTilt, subscribeToVid, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs };
+export { setupSocket, subscribeToTilt, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs };

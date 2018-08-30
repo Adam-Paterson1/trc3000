@@ -1,49 +1,50 @@
 import React, { Component } from 'react';
-import {setupSocket, subscribeToTimer, setTarget, subscribeToTarget, subscribeToGains, setGains} from './Socket.js';
-import ChartWrapper from './Chart.js';
+import {setupSocket, setTarget, subscribeToTarget, subscribeToGains, setGains} from './Socket.js';
+import ChartWrapper from './ChartWrapper.js';
 import './App.css';
 import Logger from './Logger.js';
 import VideoPlayer from './Video.js';
-
-// const videoJsOptions = {
-//   autoplay: true,
-//   controls: true,
-//   sources: [{
-//     src: 'PerfBoostsTrim.mp4',
-//     type: 'video/mp4'
-//   }]
-// }
-const videoJsOptions = {
-  autoplay: true,
-  controls: true,
-  sources: [{
-    src: 'http://169.254.199.70:8080/camera/livestream.m3u8',
-    type: 'application/x-mpegURL'
-  }]
-}
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.input = React.createRef();
-    this.inputTarget = React.createRef();
+    this.inputTargetTilt = React.createRef();
+    this.inputTargetLRPM = React.createRef();
+    this.inputTargetRRPM = React.createRef();
     this.inputKp = React.createRef();
     this.inputKi = React.createRef();
     this.inputKd = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSubmitTarget = this.handleSubmitTarget.bind(this);
+    this.handleSubmitTargetTilt = this.handleSubmitTargetTilt.bind(this);
+    this.handleSubmitTargetLRPM = this.handleSubmitTargetLRPM.bind(this);
+    this.handleSubmitTargetRRPM = this.handleSubmitTargetRRPM.bind(this);
+
     this.handleSubmitGains = this.handleSubmitGains.bind(this);
   }
   state = {
-    timestamp: 'no timestamp yet'
+    target: {}
   };
   componentDidMount() {
-    subscribeToTimer((err, timestamp) => this.setState({ 
-      timestamp 
-    }));
     subscribeToTarget((target) => {
-      this.inputTarget.current.value = target
-      this.setState({target})
+      if (target.Tilt) {
+        this.inputTargetTilt.current.value = target.Tilt
+        this.setState((prevState) => {
+          return {target: {...prevState.target, Tilt: target.Tilt}}
+        });
+      } else if (target.leftRPM) {
+        this.inputTargetLRPM.current.value = target.leftRPM
+        this.setState((prevState) => {
+          return {target: {...prevState.target, leftRPM: target.leftRPM}}
+        });
+
+      } else if (target.rightRPM) {
+        this.inputTargetRRPM.current.value = target.rightRPM
+        this.setState((prevState) => {
+          return {target: {...prevState.target, rightRPM: target.rightRPM}}
+        });
+
+      }
     })
     subscribeToGains((gains) => {
       this.setState({gains})
@@ -52,14 +53,22 @@ class App extends Component {
       this.inputKd.current.value = gains.kd
     })
     this.input.current.value = window.location.hostname
-    setupSocket(this.input.current.value);
+    //setupSocket(this.input.current.value);
   }
   handleSubmit(event) {
     setupSocket(this.input.current.value)
     event.preventDefault()
   }
-  handleSubmitTarget(event) {
-    setTarget(this.inputTarget.current.value);
+  handleSubmitTargetTilt(event) {
+    setTarget({Tilt: this.inputTargetTilt.current.value});
+    event.preventDefault()
+  }
+  handleSubmitTargetLRPM(event) {
+    setTarget({leftRPM: this.inputTargetLRPM.current.value});
+    event.preventDefault()
+  }
+  handleSubmitTargetRRPM(event) {
+    setTarget({rightRPM: this.inputTargetRRPM.current.value});
     event.preventDefault()
   }
   handleSubmitGains(event) {
@@ -73,20 +82,36 @@ class App extends Component {
     return (
       <div className="App">
         <div className="banner">
-          <form onSubmit={this.handleSubmit}>
+          <form className="formLike" onSubmit={this.handleSubmit}>
             <label>IP
               <br />
               <input type="text" ref={this.input} />
             </label>
           </form>
-          <form onSubmit={this.handleSubmitTarget}>
-            <label>Target
+          <div className="formLike">
+            <label style={{width: '100%'}}>Target</label>
               <br />
-              <input type="text" ref={this.inputTarget} />
+            <form onSubmit={this.handleSubmitTargetTilt}>
+              <label>Tilt
+                <input type="text" ref={this.inputTargetTilt} />
+              </label>
+            </form>
+            <form onSubmit={this.handleSubmitTargetLRPM}>
+
+            <label>LRPM
+              <input type="text" ref={this.inputTargetLRPM} />
             </label>
-          </form>
-          <form onSubmit={this.handleSubmitGains}>
-            <label>Gains</label>
+            </form>
+            <form onSubmit={this.handleSubmitTargetRRPM}>
+
+            <label>RRPM
+              <input type="text" ref={this.inputTargetRRPM} />
+            </label>
+            </form>
+
+          </div>
+          <form className="formLike" onSubmit={this.handleSubmitGains}>
+            <label style={{width: '100%'}}>Gains</label>
             <br />
             <label>P
               <input type="text" ref={this.inputKp} />
@@ -105,7 +130,7 @@ class App extends Component {
           <Logger />
         </div>
         <div style={{display: 'flex'}}>
-          <VideoPlayer { ...videoJsOptions } />
+          <VideoPlayer />
         </div>
       </div>
     );

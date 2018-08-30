@@ -1,40 +1,32 @@
 import React, { Component } from 'react';
 import Chart from 'chart.js'
-import { subscribeToTilt } from './Socket'
 
+const colours = ["#000000", "#00ff00", "#ff0000", "#0000ff"]
 class ChartWrapper extends Component {
   constructor(props) {
     super(props);
-    this.myRef = React.createRef();
-    this.tiltArr = [];
-    this.desiredTiltArr = [];
-    this.desiredTilt = 0;
     this.updateChart = this.updateChart.bind(this)
-    //Desired tilt = this props desiredTilt
+    this.id = this.props.labels.join('');
   }
   componentDidMount () {
     // Start listening to live datastream
-    this.myChart = new Chart('myChart', {
+    let datasets = this.props.labels.map((label, index) => {
+      return {
+        label: label,
+        data: [],
+        borderColor: colours[index],
+        backgroundColor: colours[index],
+      }
+    })
+    this.myChart = new Chart(this.id, {
       type: 'line',
       data: {
         labels: [],
-        datasets: [
-          {
-            data: [],
-            label: 'Target',
-            borderColor: "#000000",
-            backgroundColor: "#000000",
-          },
-          {
-            label: 'Actual',
-            data: [],
-            borderColor: "#8e5ea2",
-            backgroundColor: "#8e5ea2",
-          }
-        ]
-        
+        datasets: datasets
       },
       options: {
+        responsive:true,
+        maintainAspectRatio: false,
         showLines: false,
         scales: {
           xAxes: [{
@@ -50,24 +42,29 @@ class ChartWrapper extends Component {
         responsiveAnimationDuration: 0
       }
     })
-    subscribeToTilt(this.updateChart)
+    this.props.registerInterest(this.updateChart, this.props.labels)
   }
-  updateChart(currTilt) {
+  componentWillUnmount() {
+    this.props.deregisterInterest(this.props.labels);
+  }
+
+  updateChart(newData) {
     this.myChart.data.labels.push(new Date());
-    this.myChart.data.datasets[0].data.push({x: new Date(), y: this.props.target})
-    this.myChart.data.datasets[1].data.push({x: new Date(), y: currTilt})
-    if (this.myChart.data.datasets[0].data.length > 80) {
+    let newList = Object.keys(newData);
+    newList.forEach((key, index) => {
+      this.myChart.data.datasets[index].data.push(newData[key])
+    })
+    if (this.myChart.data.datasets[0].data.length > 40) {
       this.myChart.data.labels.shift()
-      this.myChart.data.datasets[0].data.shift()
-      this.myChart.data.datasets[1].data.shift()
+      this.myChart.data.datasets.forEach((set) => {set.data.shift()})
     }
     this.myChart.update()
   }
 
   render() {
     return (
-      <div className="Box">
-        <canvas id="myChart" ref={this.myRef}> </canvas>
+      <div className="BoxInner">
+        <canvas id={this.id}> </canvas>
       </div>
     );
   }
