@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+button#stop {
+  background: red;
+  border: none;
+  width: 5rem;
+  margin: 0.3rem;
+  border-radius: 1rem;
+}
+
 input {
   width: 8rem;
   padding: 0.2rem;

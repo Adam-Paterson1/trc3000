@@ -51,7 +51,8 @@ class ChartWrapper extends Component {
         <Chart 
           labels={['Target', 'Tilt']}
           registerInterest={this.registerInterest}
-          deregisterInterest={this.deregisterInterest}>
+          deregisterInterest={this.deregisterInterest}
+          limits={[-30, 30]}>
         </Chart>
         <Chart 
           labels={['leftErr', 'rightErr']}

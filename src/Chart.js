@@ -18,6 +18,15 @@ class ChartWrapper extends Component {
         backgroundColor: colours[index],
       }
     })
+    let yaxes = [{}];
+    if (this.props.limits) {
+      yaxes = [{
+        ticks: {
+          max: this.props.limits[1],
+          min: this.props.limits[0]
+        }
+      }]
+    }
     this.myChart = new Chart(this.id, {
       type: 'line',
       data: {
@@ -31,7 +40,8 @@ class ChartWrapper extends Component {
         scales: {
           xAxes: [{
             display: false,
-          }]
+          }],
+          yAxes: yaxes
         },
         animation: {
           duration: 0,

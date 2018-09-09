@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {setupSocket, setTarget, subscribeToTarget, subscribeToGains, setGains} from './Socket.js';
+import {setupSocket, setTarget, subscribeToTarget, subscribeToGains, setGains, stop} from './Socket.js';
 import ChartWrapper from './ChartWrapper.js';
 import './App.css';
 import Logger from './Logger.js';
@@ -19,6 +19,7 @@ class App extends Component {
     this.handleSubmitTargetTilt = this.handleSubmitTargetTilt.bind(this);
     this.handleSubmitTargetLRPM = this.handleSubmitTargetLRPM.bind(this);
     this.handleSubmitTargetRRPM = this.handleSubmitTargetRRPM.bind(this);
+    this.handleStop = this.handleStop.bind(this);
 
     this.handleSubmitGains = this.handleSubmitGains.bind(this);
   }
@@ -32,13 +33,14 @@ class App extends Component {
         this.setState((prevState) => {
           return {target: {...prevState.target, Tilt: target.Tilt}}
         });
-      } else if (target.leftRPM) {
+      } 
+      if (target.leftRPM) {
         this.inputTargetLRPM.current.value = target.leftRPM
         this.setState((prevState) => {
           return {target: {...prevState.target, leftRPM: target.leftRPM}}
         });
-
-      } else if (target.rightRPM) {
+      }
+      if (target.rightRPM) {
         this.inputTargetRRPM.current.value = target.rightRPM
         this.setState((prevState) => {
           return {target: {...prevState.target, rightRPM: target.rightRPM}}
@@ -77,6 +79,9 @@ class App extends Component {
       ki: this.inputKi.current.value,
       kd: this.inputKd.current.value})
     event.preventDefault();
+  }
+  handleStop() {
+    stop();
   }
   render() {
     return (
@@ -124,13 +129,14 @@ class App extends Component {
             </label>
             <input type="submit" style={{display: "none"}} />
           </form>
+          <button id="stop" onClick={this.handleStop}>STOP</button>
         </div>
         <div style={{display: 'flex'}}>
           <ChartWrapper target={this.state.target} />
-          <Logger />
         </div>
         <div style={{display: 'flex'}}>
           <VideoPlayer />
+          <Logger />
         </div>
       </div>
     );
