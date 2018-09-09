@@ -14,11 +14,14 @@ export default class VideoPlayer extends Component {
     let img2 = new Image();
     subscribeToImage((data) => {
       img1.src = 'data:image/jpeg;base64,' + data[0];
-      img2.src = 'data:image/jpeg;base64,' + data[1];
+      this.ctx.drawImage(img1, 0, 0);
+
+      if (data[1]) {
+        img2.src = 'data:image/jpeg;base64,' + data[1];
+        this.ctx2.drawImage(img2, 0,0);
+      }
       // let elem = document.getElementById('myImg')
       // elem.insertAdjacentElement('afterend', img)
-      this.ctx.drawImage(img1, 0, 0);
-      this.ctx2.drawImage(img2, 0,0);
     })
   }
 
