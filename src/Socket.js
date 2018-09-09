@@ -3,7 +3,7 @@ let socket;
 let todos = [];
 let watching = [];
 function setupSocket(ip) {
-  socket = openSocket(ip + ':5000');
+  socket = openSocket(ip);
   socket.on('disconnect', (reason) => {
     console.log('hi', reason)
     // if (reason === 'io server disconnect') {
