@@ -38,7 +38,22 @@ function subscribeToImage(cb) {
   socket.on('image', data => cb(data));
   socket.emit('subscribeToImage');
   watching.push(() => subscribeToImage(cb))
-
+}
+function subscribeToThreshold(cb) {
+  if (!socket) {
+    todos.push(() => subscribeToThreshold(cb))
+    return;
+  }
+  socket.on('thresh', data => cb(data));
+  socket.emit('subscribeToThresh');
+  watching.push(() => subscribeToThreshold(cb))
+}
+function setHSV(value) {
+  if (!socket) {
+    todos.push(() => setHSV(value))
+    return;
+  }
+  socket.emit('setHSV', value)
 }
 function setTarget(value) {
   if (!socket) {
@@ -82,4 +97,4 @@ function subscribeToLogs(cb) {
 function stop() {
   socket.emit('stop')
 }
-export { setupSocket, subscribeToTilt, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs, stop };
+export { setupSocket, subscribeToTilt, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs, stop, subscribeToThreshold, setHSV };

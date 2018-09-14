@@ -136,6 +136,8 @@ class App extends Component {
         </div>
         <div style={{display: 'flex'}}>
           <VideoPlayer />
+        </div>
+        <div style={{display: 'flex'}}>
           <Logger />
         </div>
       </div>
