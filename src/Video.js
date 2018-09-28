@@ -21,7 +21,7 @@ export default class VideoPlayer extends Component {
     this.ctx = this.imageCanvas.current.getContext('2d', { alpha: false })
     this.ctx2 = this.imageCanvas2.current.getContext('2d', { alpha: false })
     this.ctx3 = this.imageCanvas3.current.getContext('2d', {alpha :false})
-    this.ctx4 = this.imageCanvas3.current.getContext('2d', {alpha :false})
+    this.ctx4 = this.imageCanvas4.current.getContext('2d', {alpha :false})
 
     let img1 = new Image();
     let img2 = new Image();
