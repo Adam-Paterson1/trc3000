@@ -24,17 +24,26 @@ export default class VideoPlayer extends Component {
     this.ctx4 = this.imageCanvas4.current.getContext('2d', {alpha :false})
 
     let img1 = new Image();
+    img1.onload = () => {
+      this.ctx.drawImage(img1, 0, 0);
+    }
     let img2 = new Image();
+    img2.onload = () => {
+      this.ctx2.drawImage(img2, 0,0);
+    }
     let img3 = new Image();
+    img3.onload = () => {
+      this.ctx3.drawImage(img3, 0, 0);
+    }
     let img4 = new Image();
+    img4.onload = () => {
+      this.ctx4.drawImage(img4, 0,0);
+    }
 
     subscribeToImage((data) => {
       img1.src = 'data:image/jpeg;base64,' + data[0];
-      this.ctx.drawImage(img1, 0, 0);
-
       if (data[1]) {
         img2.src = 'data:image/jpeg;base64,' + data[1];
-        this.ctx2.drawImage(img2, 0,0);
       }
     })
     subscribeToThreshold((data) => {
@@ -48,11 +57,8 @@ export default class VideoPlayer extends Component {
         this.inputS2.current.value = data.upper[1]
         this.inputV2.current.value = data.upper[2]
       }
-
       img3.src = 'data:image/jpeg;base64,' + data[0];
-      this.ctx3.drawImage(img3, 0, 0);
       img4.src = 'data:image/jpeg;base64,' + data[1];
-      this.ctx4.drawImage(img4, 0,0);
     })
   }
 
