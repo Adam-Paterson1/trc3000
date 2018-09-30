@@ -59,11 +59,12 @@ class ChartWrapper extends Component {
           registerInterest={this.registerInterest}
           deregisterInterest={this.deregisterInterest}>
         </Chart>
-        {/* <Chart 
+        <Chart 
           labels={['leftRPM', 'rightRPM']}
           registerInterest={this.registerInterest}
-          deregisterInterest={this.deregisterInterest}>
-        </Chart> */}
+          deregisterInterest={this.deregisterInterest}
+          limits={[-100, 100]}>
+        </Chart>
         {/* <Chart 
           labels={['leftRPMTarget', 'rightRPMTarget']}
           registerInterest={this.registerInterest}
