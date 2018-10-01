@@ -17,7 +17,11 @@ class Logger extends Component {
   }
   updateLogs(newLog) {
     this.setState((prevState, props) => {
-      return {logs: prevState.logs.concat(newLog) }
+      if (prevState.logs.length > 10) {
+        return {logs: prevState.logs.slice(prevState.logs.length - 10).concat(newLog) }
+      } else {
+        return {logs: prevState.logs.concat(newLog) }
+      }
     })
   }
   componentDidUpdate() {
@@ -26,7 +30,7 @@ class Logger extends Component {
 
   render() {
     return (
-      <div ref={this.boxRef} className="Box" style={{overflowY: "scroll"}}>
+      <div ref={this.boxRef} className="Box" style={{overflowY: "scroll", overflowX: "hidden", display: "block"}}>
         {this.state.logs.map((log, index) => {
           return <div className="log" key={index}> {log} </div>
         })}
