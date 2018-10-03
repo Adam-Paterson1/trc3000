@@ -28,28 +28,20 @@ class App extends Component {
   };
   componentDidMount() {
     subscribeToTarget((target) => {
-      if (target.Tilt) {
-        this.inputTargetTilt.current.value = target.Tilt
-        this.setState((prevState) => {
-          return {target: {...prevState.target, Tilt: target.Tilt}}
-        });
+      this.setState((prevState) => {
+        return {target: {...prevState.target, ...target}}
+      });
+      if (target.Tilt != null) {
+        this.inputTargetTilt.current.value = target.Tilt;
       } 
-      if (target.leftRPM) {
-        this.inputTargetLRPM.current.value = target.leftRPM
-        this.setState((prevState) => {
-          return {target: {...prevState.target, leftRPM: target.leftRPM}}
-        });
+      if (target.leftRPM != null) {
+        this.inputTargetLRPM.current.value = target.leftRPM;
       }
-      if (target.rightRPM) {
-        this.inputTargetRRPM.current.value = target.rightRPM
-        this.setState((prevState) => {
-          return {target: {...prevState.target, rightRPM: target.rightRPM}}
-        });
-
+      if (target.rightRPM != null) {
+        this.inputTargetRRPM.current.value = target.rightRPM;
       }
     })
     subscribeToGains((gains) => {
-      this.setState({gains})
       this.inputKp.current.value = gains.kp
       this.inputKi.current.value = gains.ki
       this.inputKd.current.value = gains.kd
