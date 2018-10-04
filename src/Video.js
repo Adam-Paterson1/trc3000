@@ -75,8 +75,8 @@ export default class VideoPlayer extends Component {
     return (
       <div  style={{display: 'flex'}}>
         <div style={{display: 'flex', flexGrow: '1'}}>
-          <canvas id="myImg" className='canvasBox' ref={this.imageCanvas} width={'750px'} height={'50px'}> </canvas>
-          <canvas id="myImg2" className='canvasBox' ref={this.imageCanvas2} width={'750px'} height={'50px'}> </canvas>
+          <canvas id="myImg" className='canvasBox' ref={this.imageCanvas} width={'300px'} height={'200px'}> </canvas>
+          <canvas id="myImg2" className='canvasBox' ref={this.imageCanvas2} width={'300px'} height={'200px'}> </canvas>
           <div>
             <canvas id="myImg3" className='canvasBox' ref={this.imageCanvas3} width={'100px'} height={'100px'}> </canvas>
             <canvas id="myImg4" className='canvasBox' ref={this.imageCanvas4} width={'100px'} height={'100px'}> </canvas>
