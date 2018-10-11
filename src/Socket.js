@@ -94,7 +94,10 @@ function subscribeToLogs(cb) {
   }
   socket.on('log', value => cb(value))
 }
+function start() {
+  socket.emit('start')
+}
 function stop() {
   socket.emit('stop')
 }
-export { setupSocket, subscribeToTilt, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs, stop, subscribeToThreshold, setHSV };
+export { setupSocket, subscribeToTilt, subscribeToImage, setTarget, subscribeToTarget, subscribeToGains, setGains, subscribeToLogs, start, stop, subscribeToThreshold, setHSV };

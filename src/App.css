@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+button#start {
+  background: lime;
+  border: none;
+  width: 5rem;
+  margin: 0.3rem;
+  border-radius: 1rem;
+}
+
 button#stop {
   background: red;
   border: none;

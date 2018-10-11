@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {setupSocket, setTarget, subscribeToTarget, subscribeToGains, setGains, stop} from './Socket.js';
+import {setupSocket, setTarget, subscribeToTarget, subscribeToGains, setGains, start, stop} from './Socket.js';
 import ChartWrapper from './ChartWrapper.js';
 import './App.css';
 import Logger from './Logger.js';
@@ -19,6 +19,7 @@ class App extends Component {
     this.handleSubmitTargetTilt = this.handleSubmitTargetTilt.bind(this);
     this.handleSubmitTargetLRPM = this.handleSubmitTargetLRPM.bind(this);
     this.handleSubmitTargetRRPM = this.handleSubmitTargetRRPM.bind(this);
+    this.handleStart = this.handleStart.bind(this);
     this.handleStop = this.handleStop.bind(this);
 
     this.handleSubmitGains = this.handleSubmitGains.bind(this);
@@ -72,6 +73,9 @@ class App extends Component {
       kd: this.inputKd.current.value})
     event.preventDefault();
   }
+  handleStart() {
+    start();
+  }
   handleStop() {
     stop();
   }
@@ -121,6 +125,7 @@ class App extends Component {
             </label>
             <input type="submit" style={{display: "none"}} />
           </form>
+          <button id="start" onClick={this.handleStart}>START</button>
           <button id="stop" onClick={this.handleStop}>STOP</button>
         </div>
         <div style={{display: 'flex'}}>
